@@ -1,0 +1,134 @@
+apply plugin: 'com.android.library'
+android {
+    compileSdkVersion 27
+    buildToolsVersion "27.0.0"
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 27
+
+        ndk {
+            //选择要添加的对应cpu类型的.so库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86'
+            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+        }
+        manifestPlaceholders = [
+                JPUSH_PKGNAME : "1",
+                JPUSH_APPKEY : "1", //JPush上注册的包名对应的appkey.
+                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+        ]
+    }
+
+    dataBinding {
+        enabled = true
+    }
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+
+    lintOptions {
+        baseline file("lint-baseline.xml")
+        checkAllWarnings true
+        warningsAsErrors true
+        abortOnError false
+    }
+
+    packagingOptions {
+        exclude 'META-INF/README'
+        exclude 'META-INF/README.txt'
+        exclude 'META-INF/readme'
+        exclude 'META-INF/readme.txt'
+
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license'
+        exclude 'META-INF/license.txt'
+
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice'
+        exclude 'META-INF/notice.txt'
+
+        exclude 'META-INF/dependencies'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/DEPENDENCIES.txt'
+
+        exclude 'META-INF/PROPERTIES'
+        exclude 'META-INF/PROPERTIES.txt'
+        exclude 'META-INF/properties'
+        exclude 'META-INF/properties.txt'
+
+        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/ASL2.0'
+
+        exclude 'META-INF/rxjava.properties'
+        exclude 'META-INF/rxjava.properties.txt'
+
+        exclude 'META-INF/RXJAVA.DEPENDENCIES'
+        exclude 'META-INF/RXJAVA.DEPENDENCIES.txt'
+
+        exclude 'META-INF/proguard/**'
+        exclude 'META-INF/*.version'
+    }
+
+/***For Android Studio 3.0+**/
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
+
+//    configurations.all {
+//        resolutionStrategy.force dep.findBugsJrs305
+//        resolutionStrategy.force dep.appcompat
+//        resolutionStrategy.force dep.annotationApi
+//        resolutionStrategy.force dep.multidex
+//    }
+}
+
+
+//dependencies {
+//    compile fileTree(include: ['*.jar'], dir: 'libs')
+//    // Don't remove these dependencies , they are just for unit test
+//    provided dep.findBugsJrs305
+//    provided dep.errorProne
+//    provided dep.jetAnnotations
+//    provided dep.annotationApi
+//    testCompile dep.junit
+//    testCompile dep.truth
+//    testCompile dep.mockito
+//    androidTestCompile dep.testRunner
+//    androidTestCompile dep.truth
+//    androidTestCompile(dep.espresso, {
+//        exclude group: 'com.android.support', module: '*'
+//    })
+//}
+
+/***For Android Studio 3.0+**/
+//dependencies {
+//    implementation fileTree(include: ['*.jar'], dir: 'libs')
+//    compileOnly dep.inject
+//    compileOnly dep.findBugsJrs305
+//    compileOnly dep.errorProne
+//    compileOnly dep.jetAnnotations
+//    compileOnly dep.annotationApi
+//
+//    testImplementation dep.junit
+//    testImplementation dep.truth
+//    testImplementation dep.mockito
+//    testImplementation dep.lifecycleTest
+//    androidTestImplementation dep.testRunner
+//    androidTestImplementation dep.truth
+//    androidTestImplementation(dep.espresso, {
+//        exclude group: 'com.android.support', module: '*'
+//    })
+//
+//    for Android Support Library version 27.0.0
+//    implementation dep.lifecycleJava8
+//    implementation dep.lifecycleReactivestreams
+//    implementation dep.lifecycleExtensions
+//
+//    implementation dep.theGuava
+//}

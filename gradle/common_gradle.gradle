@@ -1,0 +1,93 @@
+apply plugin: 'com.android.application'
+apply from: '../gradle/global.gradle'
+apply from: '../gradle/flavors.gradle'
+
+static def vercode() {
+    return Integer.parseInt(new Date().format("yyMMddHHmm"))
+}
+
+android {
+
+    compileSdkVersion sdkVersion
+    buildToolsVersion toolsVersion
+    defaultConfig {
+        minSdkVersion minVersion
+        targetSdkVersion tagVersion
+        multiDexEnabled true
+        versionCode vercode()
+        versionName autoVersionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        resValue "string", "AutoUpdateprovide", packagename + ".install_provider"
+        resValue "string", "tray__authority", packagename + ".com.yulecheng.main.tray"
+        manifestPlaceholders = [
+                JPUSH_PKGNAME: packagename,
+                JPUSH_APPKEY : jpush_appkey, //JPush上注册的包名对应的appkey.
+                JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
+        ]
+        ndk {
+            //选择要添加的对应cpu类型的.so库。
+            abiFilters 'armeabi'
+            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+        }
+    }
+
+    useLibrary 'org.apache.http.legacy'
+    signingConfigs {
+        signingConfig {
+            keyAlias 'mj'
+            keyPassword 'Android1.0.0'
+            storeFile file('mj.jks')
+            storePassword 'Android1.0.0'
+            v2SigningEnabled false
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.signingConfig
+        }
+        debug {
+            testCoverageEnabled true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.signingConfig
+        }
+    }
+
+
+
+
+
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license'
+        exclude 'META-INF/license.txt'
+
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice'
+        exclude 'META-INF/notice.txt'
+
+        exclude 'META-INF/dependencies'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/ASL2.0'
+    }
+    dataBinding {
+        enabled = true
+    }
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}

@@ -1,0 +1,36 @@
+apply from: "../gradle/global.gradle"
+android {
+    productFlavors {
+        baidu_1 {
+            applicationId packagename
+            resValue "string", "app_name", appName
+            buildConfigField "String", "SPLASH_PIC", "\"${splashPic}\""
+            buildConfigField "String", "BMOB_KEY", "\"${bmobKey}\""
+            buildConfigField "String", "INTERFACE_URL", "\"${interface_check_url}\""
+            resValue "color", "colorPrimary", themeColor
+            manifestPlaceholders = [
+                    JPUSH_PKGNAME: packagename,
+                    JPUSH_APPKEY : jpush_appkey, //JPush上注册的包名对应的appkey.
+                    JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
+            ]
+        }
+    }
+
+    //修改生成的apk名字
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                // 包名称
+                def flavorName = variant.productFlavors[0].name
+                // 版本名称
+                def versionName = defaultConfig.versionName
+
+                def fileName = "android_${flavorName}_${versionName}.apk"
+                def outDirectory = outputFile.parent
+                output.outputFile = new File(outDirectory, fileName)
+            }
+        }
+    }
+
+}
