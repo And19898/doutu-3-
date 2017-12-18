@@ -33,9 +33,9 @@ ext{
     //bmob key
     bmobKey = "979f2349e879fb0a4af2868de572a812"
     //app包名
-    packagename = "com.android.mj.shuangseqiu"
+    packagename = "com.android.ssq"
     //推送key
-    jpush_appkey = "d36479c761bd62e2b32abecf"
+    jpush_appkey = "a27a3986fc61f877f82e2cfa"
     //app版本名
     autoVersionName = "2.1.0"
     //主题色
